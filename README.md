@@ -17,11 +17,11 @@
 
 ## 使用说明
 
-1.clone本或直接下载本项目到本地集成web环境下
-2.按thinkphp5文档配置好路由和rewrite
-3.导入数据库文件signin.sql
-4.访问后台登录地址localhost/admin/login  (用户名和密码都是admin)
-5.如有疑问和建议,Welcome to Issues and Pull Requests!
-6.本项目适合学习thinkPHP5新手拿来学习练手。
+1. clone本或直接下载本项目到本地集成web环境下
+2. 按thinkphp5文档配置好路由和rewrite
+3. 导入数据库文件signin.sql
+4. 访问后台登录地址localhost/admin/login  (用户名和密码都是admin)
+5. 如有疑问和建议,Welcome to Issues and Pull Requests!
+6. 本项目适合学习thinkPHP5新手拿来学习练手。
 
 
