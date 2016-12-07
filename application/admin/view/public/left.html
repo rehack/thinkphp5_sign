@@ -1,0 +1,25 @@
+<div data-options="region:'west',split:true" title="导航菜单" style="width:150px;">
+    <div class="easyui-accordion" data-options="fit:false,border:false">
+        {volist name="json" id="vo"}
+        <div title="{$vo.menuname}" style="padding:10px;" class="">
+            {foreach $vo['menus'] as $child}
+            <a id="menu{$child.id}" class="easyui-linkbutton" onclick="addTab('{$child.menuname}','{$child.url}')" plain="true">{$child.menuname}</a><br>
+            {/foreach}
+        </div>
+        {/volist}
+    </div>
+</div>
+<script>
+    function addTab(title, url){
+        if ($('#tabs').tabs('exists', title)){
+            $('#tabs').tabs('select', title);
+        } else {
+            var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+            $('#tabs').tabs('add',{
+                title:title,
+                content:content,
+                closable:true
+            });
+        }
+    }
+</script>

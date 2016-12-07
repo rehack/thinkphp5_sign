@@ -1,0 +1,27 @@
+<div region="north" split="true" border="false" style="overflow: hidden;height: 40px;background: #2dc3e8;line-height: 40px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
+    <span style="float:right; padding-right:20px;" class="head">欢迎 {$Request.session.user_name}
+    	<span id="clear" style="cursor: pointer;">清除缓存</span>
+        <a href="{:url('Login/logout')}" id="loginOut">安全退出</a>
+    </span>
+    <span style="padding-left:10px; font-size: 16px;">
+        <i class="fa fa-cogs" aria-hidden="true" style="color: #fff;"></i>
+    	客户签到管理系统
+    </span>
+</div>
+<script>
+    $('#clear').on('click',function(){
+        $.ajax({
+            url: "{:url('Login/clear')}",
+            type: 'POST',
+            dataType: 'html',
+            // data: {param1: 'value1'},
+        })
+        .done(function(data) {
+            alert(data);
+        })
+        .fail(function() {
+            alert("发生错误");
+        });
+
+    })
+</script>

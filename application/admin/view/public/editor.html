@@ -1,0 +1,49 @@
+<div class="modal fade" id="editorModal">
+    <div class="modal-dialog modal-smw">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title glyphicon glyphicon-edit" id="editTitle">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline" role="form" id="editForm">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="control-label" for="name">姓&emsp;&emsp;名</label>
+                            <input class="form-control" id="name" type="text" name="name" placeholder="姓名" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="control-label" for="sex">性&emsp;&emsp;别</label>
+                            <select class="form-control" id="sex" name="sex">
+                                <option value="0">未知</option>
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="control-label" for="telephone">手&ensp;机&ensp;号</label>
+                            <input class="form-control" id="telephone" name="telephone" type="text" placeholder="选择日期" required="required" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="control-label" for="comment">备&emsp;&emsp;注</label>
+                            <textarea id="comment" class="form-control" name="comment" rows="3"></textarea>
+                            <input type="hidden" name="id" value="">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="pull-left text-danger addconmsg"></span>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="editSubmit">保存</button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>客户数据</title>
+<link rel="stylesheet" href="__PUBLIC__static/bootstrap/css/bootstrap.full.css">
+<link rel="stylesheet" href="__PUBLIC__static/bootstrap/css/bootstrap-datepicker.min.css">
+<link href="__PUBLIC__static/easyui/css/easyui.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__static/easyui/css/icon.css" rel="stylesheet" type="text/css" />
+<script src="__PUBLIC__static/easyui/js/jquery.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__static/easyui/js/jquery.easyui.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__static/easyui/js/easyui-lang-zh_CN.js" type="text/javascript"></script>
+<script src="__PUBLIC__static/easyui/js/datagrid-detailview.js"></script>
+
+
+<script src="__PUBLIC__static/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__static/bootstrap/js/bootstrap-datepicker.min.js"></script>
+<script src="__PUBLIC__static/bootstrap/js/bootstrap-datepicker.zh-CN.min.js"></script>
+<style>
+    body{margin: 0;padding: 0;}
+    /* .yes{color: green;}
+    .no{color: red;}
+    .status{width: 16px;height: 15px;display: inline-block;font-size: 0px;} */
+    .glyphicon-ok{color: #5cb85c;}
+    .glyphicon-remove{color: #f0ad4e;}
+    .money{font-weight: bold;color: #f00;}
+    td{text-align: center;}
+    .datagrid-cell{height: auto;}
+    /* .datagrid-header-row, .datagrid-row{height: 55px;} */
+    /* .datagrid-header{position: fixed;} */
+    .form-group{padding-bottom: 15px;}
+    .control-label{text-align: right;/* width: 20%; */margin-right: 2%;}
+    .form-control{width: 60%!important;}
+    .line{border-bottom: 1px dashed #ccc;text-align: center;color: #888;margin-bottom: 20px;}
+    .btns{text-align: center;}
+    #msg{color: #f00;}
+    /* 冲突样式重置 */
+    .panel-header{width: 100%!important;}
+    .panel-body{width: 100%!important;}
+    .glyphicon{margin-right: 5px;}
+    .signin span{font-weight: bold;margin: 0 3px;vertical-align: middle;}
+
+</style>
+
+</head>
+<body>
+    <table id="dg" class="" title="客户消费情况表">
+    </table>
+    <div id="toolbar" style="display: none">
+        <div style="margin-bottom:5px">
+            <div style="margin-bottom: 8px;">
+                <a class="easyui-linkbutton" id="openEditModal" plain="true" title="编辑客户"><span class="glyphicon glyphicon-edit"></span>编辑客户</a>
+                <a id="reload" class="easyui-linkbutton" plain="true" title="刷新数据"><span class="glyphicon glyphicon-refresh"></span>刷新数据</a>
+                <a href="{:url('')}" class="easyui-linkbutton" plain="true" target="_blank" title="全屏显示表格"><span class="glyphicon glyphicon-fullscreen"></span>全屏显示</a>
+                <a href="{:url('export')}" class="easyui-linkbutton" plain="true" target="_self"><span class="glyphicon glyphicon-export"></span>导出数据</a>
+            </div>
+            <div class="btn-toolbar" role="toolbar" style="margin-bottom: 8px;">
+                <div class="btn-group btn-group-sm signin">
+                    <button type="button" class="btn btn-info" data-signin="0">全部客户<span class="total">{$data['total']}</span>人</button>
+                    <button type="button" class="btn btn-success" data-signin="1">已签到客户<span class="signed">{$data['signed']}</span>人</button>
+                    <button type="button" class="btn btn-warning" data-signin="2">未签到客户<span class="nosign">{$data['nosign']}</span>人</button>
+                </div>
+            </div>
+
+        </div>
+        <div style="margin-bottom: 8px;">
+            模糊查询（姓名/手机号）：<input id="mohu" class="easyui-textbox" type="text" style="width: 100px">
+            <a href="javascript:;" id="search" class="easyui-linkbutton"><span class="glyphicon glyphicon-search"></span>Search</a>
+        </div>
+    </div>
+
+
+    <!-- 编辑表单 -->
+    {include file="public/editor" /}
+
+<script>
+    // datagrid部分js
+    $(function() {
+        // 主要数据
+        $('#dg').datagrid({
+            iconCls: 'icon-list',
+            idField: 'id',
+            autoRowHeight: false,
+            nowrap: false,//可以换行显示数据，但性能偏低
+            url: '{:url('returndata')}'+'&r='+Math.random(),
+            columns:[[
+                // {field:'id',title:'ID',width:1,width:'auto'},
+                {field:'checkbox',checkbox:true},
+                {field:'name',title:'姓名',width:80},
+                // {field:'usersn',title:'客户编号',width:100},
+                {field:'telephone',title:'手机号码',width:80},
+                {field:'sex',title:'性别',width:45},
+                {field:'signin',title:'签到状态',formatter:statusformater,sortable:true,width:45},
+                // {field:'signin',title:'签到状态',editor:{type:'checkbox',options:{on:'P',off:''}},sortable:true,width:45},
+                {field:'comment',title:'备注',width:110},
+                {field:'create_time',title:'登记时间',sortable:true,width:110},
+                {field:'signin_time',title:'签到时间',sortable:true,width:110},
+                {field:'action',title:'操作',width:80,
+                    formatter:function(value,row,index){
+                        var id=row.id;
+                        var name=row.name;
+                        var da=index+','+'\''+name+'\'';
+                        if(row.signin==2){
+                            var e = '<button type="button" class="btn btn-success btn-xs" onclick="startsign('+id+')">点击签到</button>';
+                            var d = '<button type="button" class="btn btn-warning btn-xs" onclick="deleterow('+da+')">删除</button>';
+
+                            return e+d;
+                        }else{
+                            var e = '<button type="button" class="btn btn-success btn-xs" disabled>点击签到</button>';
+                            var d = '<button type="button" class="btn btn-warning btn-xs" onclick="deleterow('+da+')">删除</button>';
+                            return e+d;
+                        }
+
+
+                    }
+
+                }
+            ]],
+            toolbar: "#toolbar",
+            fitColumns: true, //表格宽度自适应
+            rownumbers: true,
+            pagination: true, //分页组件
+            pageSize: 30, //初始化显示条数
+            pageList: [10, 30,50, 100, 200],
+            loadMsg: '玩命加载数据中......',
+            // striped:true, //斑马线效果
+            singleSelect: true, //单选
+
+        });
+    });
+
+    function statusformater(value, row, index) {
+        return value == 1 ? "<span class='glyphicon glyphicon-ok success'></span>" : "<span class='glyphicon glyphicon-remove'></span>";
+
+    }
+    // 刷新数据
+    $('#reload').on('click', function() {
+        $('#dg').datagrid('reload');
+    });
+
+
+    // 表单部分js
+    $('#myModal').modal({
+        // backdrop: false,
+        show:false
+    });
+    // 添加用户
+    $('#submit').on('click', function() {
+        $.ajax({
+                url: '{:url("useradd/useradd")}',
+                type: 'POST',
+                dataType: 'html',
+                data: $('#formdata').serialize()
+            })
+            .done(function(data) {
+                // console.log(data);
+                $('#msg').html('提示信息：' + data);
+                if (data == '"客户添加成功!"') {
+                    $('#submit').attr('disabled', true);
+                    $('#formdata').get(0).reset();
+                    $('#msg').html('');
+                    // $('#myModal').modal('hide');
+                    $('#dg').datagrid('reload');
+                    $('#addUserDialog').modal();
+                    $('#submit').attr('disabled', false);
+                }
+            })
+            .fail(function() {
+                console.log("error");
+            });
+
+        return false;
+
+    });
+
+
+
+    // 搜索功能
+    $('#search').on('click',function(){
+        $('#dg').datagrid('load',{
+            name: $('#mohu').val()
+        });
+    });
+
+    // 编辑功能
+    $('#openEditModal').on('click',function(){
+        var selected=$('#dg').datagrid('getSelected');
+        // console.info(selected)
+        if(selected){
+            $('#editorModal').modal();
+            $('#editTitle').html('修改客户: '+selected.name+'('+selected.telephone+') 资料');
+            $('#editForm')[0].reset();
+            $('#editForm input[name=id]').val(selected.id);
+            $('#editForm input[name=name]').val(selected.name);
+            // console.log($('#editForm input[name=name]').val())
+            switch (selected.sex) {
+                case '男':
+                    selected.sex=1;
+                    break;
+                case '女':
+                    selected.sex=2;
+                    break;
+                default:
+                    selected.sex=0;
+                    break;
+            }
+            $('#editForm select[name=sex]').val(selected.sex);
+            $('#editForm input[name=telephone]').val(selected.telephone);
+            $('#editForm textarea[name=comment]').val(selected.comment);
+            // console.info(selected)
+
+        }else{
+            alert('请选择用户');
+        }
+    });
+    $('#editSubmit').on('click',function(){
+        $.ajax({
+            url: '{:url("edit")}?r='+Math.random(),
+            type: 'POST',
+            dataType: 'html',
+            data: $('#editForm').serialize()
+        })
+        .done(function(data) {
+            console.log(data);
+            if(data=='"更新用户成功"'){
+                $('#dg').datagrid('reload');
+                $('#editorModal').modal('hide');
+            }else{
+                alert('更新失败');
+            }
+        })
+        .fail(function() {
+            alert("发生错误");
+        });
+
+    });
+
+    // 删除用户
+    function deleterow(index,name){
+        // alert(1)
+        // console.log(id);
+        // var id=row.id;
+        // var name=row.name;
+        // console(id+name);
+            // console.log(parseInt(tr.attr('datagrid-row-index')));
+        // return false;
+
+        var confirmmsg='您确定删除：'+name+' ?';
+        $.messager.confirm('确认',confirmmsg,function(r){
+            if (r){
+                var selectedRow = $('#dg').datagrid('getSelected');  //获取选中行
+                console.log(selectedRow);
+                $.ajax({
+                    url:'{:url("delete")}?id='+selectedRow.id+'&r='+Math.random(),
+                    success:function(data){alert(data);}
+                });
+                $('#dg').datagrid('deleteRow', index);
+            }
+        });
+    }
+
+    // 签到状态查询
+    $('.signin button').on('click',function(){
+        var signin=$(this).data('signin');
+        // alert(time);
+        $('#dg').datagrid('load',{
+            signin: signin
+        });
+
+    });
+
+    // 点击签到
+    function startsign(id){
+        // alert(id)
+        if(id){
+            $.ajax({
+                url: '{:url("startSign")}?r='+Math.random(),
+                type: 'POST',
+                dataType: 'html',
+                data: {id: id},
+            })
+            .done(function(data) {
+                console.log(data);
+                if(data=='"签到成功！"'){
+                    $('#dg').datagrid('reload');
+                }else{
+                    alert(data)
+                }
+            })
+            .fail(function() {
+                alert("发生错误");
+            });
+        }
+    }
+
+
+
+
+
+
+
+</script>
+
+
+
+
+</body>
+</html>
