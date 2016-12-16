@@ -67,11 +67,11 @@ CREATE TABLE `signin_users` (
   `update_time` int(11) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `tel` (`telephone`)
-) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 /*Data for the table `signin_users` */
 
-insert  into `signin_users`(`id`,`name`,`sex`,`telephone`,`signin`,`comment`,`create_time`,`signin_time`,`update_time`) values (45,'2',1,'13466663321',2,'df9',1480649280,NULL,1480820778),(46,'u',2,'13666655522',1,'没空',1480650419,1481102867,1480917426),(47,'y',1,'13666622211',2,'没有update_time',1480650578,NULL,NULL),(48,'tt',1,'13699996663',1,'782rr他',1480650726,1481102865,1480758318),(52,'马蓉',2,'13877774452',2,'达到的接撒打开撒 的挥洒接电话撒撒的谎撒谎的 大俗就看撒谎的爱上的能力啥的萨达哈撒10大坏蛋爱上',1480901219,NULL,1480917411),(53,'林妙可',1,'13633332659',2,'O(∩_∩)O嗯!',1480917285,NULL,1480917436),(54,'333w',2,'13265485555',2,'',1480929799,NULL,1480929799),(55,'2211',1,'13655556666',2,'',1480929846,NULL,1480929846);
+insert  into `signin_users`(`id`,`name`,`sex`,`telephone`,`signin`,`comment`,`create_time`,`signin_time`,`update_time`) values (47,'y',1,'13666622211',2,'没有update_time',1480650578,NULL,NULL),(48,'tt',1,'13699996663',1,'782rr他',1480650726,1481102865,1480758318),(52,'马蓉',2,'13877774452',2,'达到的接撒打开撒 的挥洒接电话撒撒的谎撒谎的 大俗就看撒谎的爱上的能力啥的萨达哈撒10大坏蛋爱上',1480901219,NULL,1480917411),(54,'333w',2,'13265485555',2,'',1480929799,NULL,1480929799),(57,'src',1,'13666662201',2,'ff2',1481858336,NULL,1481858336),(55,'2211',1,'13655556666',1,'',1480929846,1481795467,1480929846),(56,'王DOe',2,'13633332214',2,'达到i',1481104493,NULL,1481795505);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
