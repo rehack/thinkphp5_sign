@@ -150,18 +150,19 @@ class All extends Base
 		$oSheet = $objPHPExcel->getActiveSheet(); //获取当前活动sheet标签
 		$oSheet->setTitle('成都贝臣齿科客户签到情况表');
 		$oSheet->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);//居中
+        $oSheet->getStyle('F1:F10000')->getAlignment()->setWrapText(true);//自动换行
 
 		$oSheet->getStyle('A1:R1')->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
 		$oSheet->getStyle('A1:R1')->getFill()->getStartColor()->setARGB("#0cedffb");//表头背景颜色
 		$oSheet->getStyle('A1:R1')->getFont()->setBold(true);//表头字体加粗
-		$arr=range('B','F');
+		$arr=range('B','E');
 		// var_dump($arr);
 		// exit;
 		//批量设置列宽
 		for($i=0;$i<count($arr);$i++){
-			$oSheet->getColumnDimension($arr[$i])->setWidth(22);
+			$oSheet->getColumnDimension($arr[$i])->setWidth(20);
 		}
-
+        $oSheet->getColumnDimension('F')->setAutoSize(true);
 
 		// echo $this->returndata()->data;die;
 		$data=$this->getUserData();
