@@ -8,18 +8,21 @@ class All extends Base
 {
 	public function index()
 	{
-		$total=Users::count();
-		$signed=Users::where('signin',1)->count();
-		$nosign=Users::where('signin',2)->count();
 
-		$data['total']=$total;
-		$data['signed']=$signed;
-		$data['nosign']=$nosign;
-		$this->assign('data',$data);
 		return $this->fetch();
 	}
 
+    // 数据统计
+    public function count(){
+        $total=Users::count();
+        $signed=Users::where('signin',1)->count();
+        $nosign=Users::where('signin',2)->count();
 
+        $data['total']=$total;
+        $data['signed']=$signed;
+        $data['nosign']=$nosign;
+        return $data;
+    }
 
 	// 得到客户数据
 	public function getUserData($signinStatus=null){
