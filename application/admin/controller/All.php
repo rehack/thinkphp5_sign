@@ -73,7 +73,7 @@ class All extends Base
 	public function returndata(){
 		if(Request()->isPost()){
 			$data=$this->getUserData();
-			$total=Users::count();
+			$total=count($data);
 			$result=[
 				'total'=>$total,
 				'rows'=>$data
