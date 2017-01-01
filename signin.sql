@@ -1,25 +1,24 @@
 /*
-SQLyog Ultimate v12.08 (64 bit)
-MySQL - 5.5.53 : Database - signin
-*********************************************************************
-*/
+Navicat MySQL Data Transfer
 
-/*!40101 SET NAMES utf8 */;
+Source Server         : localhost
+Source Server Version : 50553
+Source Host           : localhost:3306
+Source Database       : signin
 
-/*!40101 SET SQL_MODE=''*/;
+Target Server Type    : MYSQL
+Target Server Version : 50553
+File Encoding         : 65001
 
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`signin` /*!40100 DEFAULT CHARACTER SET utf8 */;
+Date: 2017-01-01 18:02:50
+*/
 
-USE `signin`;
+SET FOREIGN_KEY_CHECKS=0;
 
-/*Table structure for table `signin_admin` */
-
+-- ----------------------------
+-- Table structure for signin_admin
+-- ----------------------------
 DROP TABLE IF EXISTS `signin_admin`;
-
 CREATE TABLE `signin_admin` (
   `id` tinyint(5) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(20) NOT NULL COMMENT '用户名',
@@ -30,14 +29,224 @@ CREATE TABLE `signin_admin` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
-/*Data for the table `signin_admin` */
+-- ----------------------------
+-- Records of signin_admin
+-- ----------------------------
+INSERT INTO `signin_admin` VALUES ('1', 'admin', 'c3284d0f94606de1fd2af172aba15bf3', '1', '1', '1,34');
+INSERT INTO `signin_admin` VALUES ('3', 'test', '14e1b600b1fd579f47433b88e8d85291', '1', '1', '1');
+INSERT INTO `signin_admin` VALUES ('5', 'suadmin', 'c3284d0f94606de1fd2af172aba15bf3', '1', '1', '1,10,16');
+INSERT INTO `signin_admin` VALUES ('4', 'credit', '14e1b600b1fd579f47433b88e8d85291', '1', '1', '10');
 
-insert  into `signin_admin`(`id`,`username`,`password`,`status`,`level`,`prem`) values (1,'admin','c3284d0f94606de1fd2af172aba15bf3',1,1,'1,10,16'),(3,'test','14e1b600b1fd579f47433b88e8d85291',1,1,'1'),(5,'suadmin','c3284d0f94606de1fd2af172aba15bf3',1,1,'1,10,16'),(4,'credit','14e1b600b1fd579f47433b88e8d85291',1,1,'10');
+-- ----------------------------
+-- Table structure for signin_lucky
+-- ----------------------------
+DROP TABLE IF EXISTS `signin_lucky`;
+CREATE TABLE `signin_lucky` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `num` int(10) unsigned NOT NULL COMMENT '客户编号',
+  `islucky` smallint(5) unsigned NOT NULL DEFAULT '2' COMMENT '中奖状态1中奖2未中奖',
+  `lun` varchar(255) DEFAULT NULL COMMENT '中奖轮次',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=191 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `signin_menu` */
+-- ----------------------------
+-- Records of signin_lucky
+-- ----------------------------
+INSERT INTO `signin_lucky` VALUES ('1', '1', '2', null);
+INSERT INTO `signin_lucky` VALUES ('2', '2', '2', null);
+INSERT INTO `signin_lucky` VALUES ('3', '3', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('4', '4', '1', '11');
+INSERT INTO `signin_lucky` VALUES ('5', '5', '2', null);
+INSERT INTO `signin_lucky` VALUES ('6', '6', '2', null);
+INSERT INTO `signin_lucky` VALUES ('7', '7', '2', null);
+INSERT INTO `signin_lucky` VALUES ('8', '8', '2', null);
+INSERT INTO `signin_lucky` VALUES ('9', '9', '2', null);
+INSERT INTO `signin_lucky` VALUES ('10', '10', '2', null);
+INSERT INTO `signin_lucky` VALUES ('11', '11', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('12', '12', '2', null);
+INSERT INTO `signin_lucky` VALUES ('13', '13', '2', null);
+INSERT INTO `signin_lucky` VALUES ('14', '14', '2', null);
+INSERT INTO `signin_lucky` VALUES ('15', '15', '2', null);
+INSERT INTO `signin_lucky` VALUES ('16', '16', '2', null);
+INSERT INTO `signin_lucky` VALUES ('17', '17', '2', null);
+INSERT INTO `signin_lucky` VALUES ('18', '18', '2', null);
+INSERT INTO `signin_lucky` VALUES ('19', '19', '2', null);
+INSERT INTO `signin_lucky` VALUES ('20', '20', '2', null);
+INSERT INTO `signin_lucky` VALUES ('21', '21', '2', null);
+INSERT INTO `signin_lucky` VALUES ('22', '22', '2', null);
+INSERT INTO `signin_lucky` VALUES ('23', '23', '2', null);
+INSERT INTO `signin_lucky` VALUES ('24', '24', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('25', '25', '2', null);
+INSERT INTO `signin_lucky` VALUES ('26', '26', '2', null);
+INSERT INTO `signin_lucky` VALUES ('27', '27', '2', null);
+INSERT INTO `signin_lucky` VALUES ('28', '28', '2', null);
+INSERT INTO `signin_lucky` VALUES ('29', '29', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('30', '30', '2', null);
+INSERT INTO `signin_lucky` VALUES ('31', '31', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('32', '32', '2', null);
+INSERT INTO `signin_lucky` VALUES ('33', '33', '2', null);
+INSERT INTO `signin_lucky` VALUES ('34', '34', '2', null);
+INSERT INTO `signin_lucky` VALUES ('35', '35', '2', null);
+INSERT INTO `signin_lucky` VALUES ('36', '36', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('37', '37', '2', null);
+INSERT INTO `signin_lucky` VALUES ('38', '38', '2', null);
+INSERT INTO `signin_lucky` VALUES ('39', '39', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('40', '40', '2', null);
+INSERT INTO `signin_lucky` VALUES ('41', '41', '2', null);
+INSERT INTO `signin_lucky` VALUES ('42', '42', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('43', '43', '2', null);
+INSERT INTO `signin_lucky` VALUES ('44', '44', '2', null);
+INSERT INTO `signin_lucky` VALUES ('45', '45', '2', null);
+INSERT INTO `signin_lucky` VALUES ('46', '46', '2', null);
+INSERT INTO `signin_lucky` VALUES ('47', '47', '2', null);
+INSERT INTO `signin_lucky` VALUES ('48', '48', '2', null);
+INSERT INTO `signin_lucky` VALUES ('49', '49', '2', null);
+INSERT INTO `signin_lucky` VALUES ('50', '50', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('51', '51', '2', null);
+INSERT INTO `signin_lucky` VALUES ('52', '52', '2', null);
+INSERT INTO `signin_lucky` VALUES ('53', '53', '2', null);
+INSERT INTO `signin_lucky` VALUES ('54', '54', '2', null);
+INSERT INTO `signin_lucky` VALUES ('55', '55', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('56', '56', '2', null);
+INSERT INTO `signin_lucky` VALUES ('57', '57', '2', null);
+INSERT INTO `signin_lucky` VALUES ('58', '58', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('59', '59', '2', null);
+INSERT INTO `signin_lucky` VALUES ('60', '60', '2', null);
+INSERT INTO `signin_lucky` VALUES ('61', '61', '2', null);
+INSERT INTO `signin_lucky` VALUES ('62', '62', '2', null);
+INSERT INTO `signin_lucky` VALUES ('63', '63', '2', null);
+INSERT INTO `signin_lucky` VALUES ('64', '64', '2', null);
+INSERT INTO `signin_lucky` VALUES ('65', '65', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('66', '66', '2', null);
+INSERT INTO `signin_lucky` VALUES ('67', '67', '2', null);
+INSERT INTO `signin_lucky` VALUES ('68', '68', '2', null);
+INSERT INTO `signin_lucky` VALUES ('69', '69', '2', null);
+INSERT INTO `signin_lucky` VALUES ('70', '70', '2', null);
+INSERT INTO `signin_lucky` VALUES ('71', '71', '2', null);
+INSERT INTO `signin_lucky` VALUES ('72', '72', '2', null);
+INSERT INTO `signin_lucky` VALUES ('73', '73', '2', null);
+INSERT INTO `signin_lucky` VALUES ('74', '74', '2', null);
+INSERT INTO `signin_lucky` VALUES ('75', '75', '2', null);
+INSERT INTO `signin_lucky` VALUES ('76', '76', '2', null);
+INSERT INTO `signin_lucky` VALUES ('77', '77', '2', null);
+INSERT INTO `signin_lucky` VALUES ('78', '78', '2', null);
+INSERT INTO `signin_lucky` VALUES ('79', '79', '2', null);
+INSERT INTO `signin_lucky` VALUES ('80', '80', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('81', '81', '2', null);
+INSERT INTO `signin_lucky` VALUES ('82', '82', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('83', '83', '2', null);
+INSERT INTO `signin_lucky` VALUES ('84', '84', '2', null);
+INSERT INTO `signin_lucky` VALUES ('85', '85', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('86', '86', '2', null);
+INSERT INTO `signin_lucky` VALUES ('87', '87', '2', null);
+INSERT INTO `signin_lucky` VALUES ('88', '88', '2', null);
+INSERT INTO `signin_lucky` VALUES ('89', '89', '2', null);
+INSERT INTO `signin_lucky` VALUES ('90', '90', '1', '11');
+INSERT INTO `signin_lucky` VALUES ('91', '91', '2', null);
+INSERT INTO `signin_lucky` VALUES ('92', '92', '2', null);
+INSERT INTO `signin_lucky` VALUES ('93', '93', '1', '1');
+INSERT INTO `signin_lucky` VALUES ('94', '94', '2', null);
+INSERT INTO `signin_lucky` VALUES ('95', '95', '2', null);
+INSERT INTO `signin_lucky` VALUES ('96', '1', '2', null);
+INSERT INTO `signin_lucky` VALUES ('97', '2', '2', null);
+INSERT INTO `signin_lucky` VALUES ('98', '3', '2', null);
+INSERT INTO `signin_lucky` VALUES ('99', '4', '1', '11');
+INSERT INTO `signin_lucky` VALUES ('100', '5', '2', null);
+INSERT INTO `signin_lucky` VALUES ('101', '6', '2', null);
+INSERT INTO `signin_lucky` VALUES ('102', '7', '2', null);
+INSERT INTO `signin_lucky` VALUES ('103', '8', '2', null);
+INSERT INTO `signin_lucky` VALUES ('104', '9', '2', null);
+INSERT INTO `signin_lucky` VALUES ('105', '10', '2', null);
+INSERT INTO `signin_lucky` VALUES ('106', '11', '2', null);
+INSERT INTO `signin_lucky` VALUES ('107', '12', '2', null);
+INSERT INTO `signin_lucky` VALUES ('108', '13', '2', null);
+INSERT INTO `signin_lucky` VALUES ('109', '14', '2', null);
+INSERT INTO `signin_lucky` VALUES ('110', '15', '2', null);
+INSERT INTO `signin_lucky` VALUES ('111', '16', '2', null);
+INSERT INTO `signin_lucky` VALUES ('112', '17', '2', null);
+INSERT INTO `signin_lucky` VALUES ('113', '18', '2', null);
+INSERT INTO `signin_lucky` VALUES ('114', '19', '2', null);
+INSERT INTO `signin_lucky` VALUES ('115', '20', '2', null);
+INSERT INTO `signin_lucky` VALUES ('116', '21', '2', null);
+INSERT INTO `signin_lucky` VALUES ('117', '22', '2', null);
+INSERT INTO `signin_lucky` VALUES ('118', '23', '2', null);
+INSERT INTO `signin_lucky` VALUES ('119', '24', '2', null);
+INSERT INTO `signin_lucky` VALUES ('120', '25', '2', null);
+INSERT INTO `signin_lucky` VALUES ('121', '26', '2', null);
+INSERT INTO `signin_lucky` VALUES ('122', '27', '2', null);
+INSERT INTO `signin_lucky` VALUES ('123', '28', '2', null);
+INSERT INTO `signin_lucky` VALUES ('124', '29', '2', null);
+INSERT INTO `signin_lucky` VALUES ('125', '30', '2', null);
+INSERT INTO `signin_lucky` VALUES ('126', '31', '2', null);
+INSERT INTO `signin_lucky` VALUES ('127', '32', '2', null);
+INSERT INTO `signin_lucky` VALUES ('128', '33', '2', null);
+INSERT INTO `signin_lucky` VALUES ('129', '34', '2', null);
+INSERT INTO `signin_lucky` VALUES ('130', '35', '2', null);
+INSERT INTO `signin_lucky` VALUES ('131', '36', '2', null);
+INSERT INTO `signin_lucky` VALUES ('132', '37', '2', null);
+INSERT INTO `signin_lucky` VALUES ('133', '38', '2', null);
+INSERT INTO `signin_lucky` VALUES ('134', '39', '2', null);
+INSERT INTO `signin_lucky` VALUES ('135', '40', '2', null);
+INSERT INTO `signin_lucky` VALUES ('136', '41', '2', null);
+INSERT INTO `signin_lucky` VALUES ('137', '42', '2', null);
+INSERT INTO `signin_lucky` VALUES ('138', '43', '2', null);
+INSERT INTO `signin_lucky` VALUES ('139', '44', '2', null);
+INSERT INTO `signin_lucky` VALUES ('140', '45', '2', null);
+INSERT INTO `signin_lucky` VALUES ('141', '46', '2', null);
+INSERT INTO `signin_lucky` VALUES ('142', '47', '2', null);
+INSERT INTO `signin_lucky` VALUES ('143', '48', '2', null);
+INSERT INTO `signin_lucky` VALUES ('144', '49', '2', null);
+INSERT INTO `signin_lucky` VALUES ('145', '50', '2', null);
+INSERT INTO `signin_lucky` VALUES ('146', '51', '2', null);
+INSERT INTO `signin_lucky` VALUES ('147', '52', '2', null);
+INSERT INTO `signin_lucky` VALUES ('148', '53', '2', null);
+INSERT INTO `signin_lucky` VALUES ('149', '54', '2', null);
+INSERT INTO `signin_lucky` VALUES ('150', '55', '2', null);
+INSERT INTO `signin_lucky` VALUES ('151', '56', '2', null);
+INSERT INTO `signin_lucky` VALUES ('152', '57', '2', null);
+INSERT INTO `signin_lucky` VALUES ('153', '58', '2', null);
+INSERT INTO `signin_lucky` VALUES ('154', '59', '2', null);
+INSERT INTO `signin_lucky` VALUES ('155', '60', '2', null);
+INSERT INTO `signin_lucky` VALUES ('156', '61', '2', null);
+INSERT INTO `signin_lucky` VALUES ('157', '62', '2', null);
+INSERT INTO `signin_lucky` VALUES ('158', '63', '2', null);
+INSERT INTO `signin_lucky` VALUES ('159', '64', '2', null);
+INSERT INTO `signin_lucky` VALUES ('160', '65', '2', null);
+INSERT INTO `signin_lucky` VALUES ('161', '66', '2', null);
+INSERT INTO `signin_lucky` VALUES ('162', '67', '2', null);
+INSERT INTO `signin_lucky` VALUES ('163', '68', '2', null);
+INSERT INTO `signin_lucky` VALUES ('164', '69', '2', null);
+INSERT INTO `signin_lucky` VALUES ('165', '70', '2', null);
+INSERT INTO `signin_lucky` VALUES ('166', '71', '2', null);
+INSERT INTO `signin_lucky` VALUES ('167', '72', '2', null);
+INSERT INTO `signin_lucky` VALUES ('168', '73', '2', null);
+INSERT INTO `signin_lucky` VALUES ('169', '74', '2', null);
+INSERT INTO `signin_lucky` VALUES ('170', '75', '2', null);
+INSERT INTO `signin_lucky` VALUES ('171', '76', '2', null);
+INSERT INTO `signin_lucky` VALUES ('172', '77', '2', null);
+INSERT INTO `signin_lucky` VALUES ('173', '78', '2', null);
+INSERT INTO `signin_lucky` VALUES ('174', '79', '2', null);
+INSERT INTO `signin_lucky` VALUES ('175', '80', '2', null);
+INSERT INTO `signin_lucky` VALUES ('176', '81', '2', null);
+INSERT INTO `signin_lucky` VALUES ('177', '82', '2', null);
+INSERT INTO `signin_lucky` VALUES ('178', '83', '2', null);
+INSERT INTO `signin_lucky` VALUES ('179', '84', '2', null);
+INSERT INTO `signin_lucky` VALUES ('180', '85', '2', null);
+INSERT INTO `signin_lucky` VALUES ('181', '86', '2', null);
+INSERT INTO `signin_lucky` VALUES ('182', '87', '2', null);
+INSERT INTO `signin_lucky` VALUES ('183', '88', '2', null);
+INSERT INTO `signin_lucky` VALUES ('184', '89', '2', null);
+INSERT INTO `signin_lucky` VALUES ('185', '90', '1', '11');
+INSERT INTO `signin_lucky` VALUES ('186', '91', '2', null);
+INSERT INTO `signin_lucky` VALUES ('187', '92', '2', null);
+INSERT INTO `signin_lucky` VALUES ('188', '93', '2', null);
+INSERT INTO `signin_lucky` VALUES ('189', '94', '2', null);
+INSERT INTO `signin_lucky` VALUES ('190', '95', '2', null);
 
+-- ----------------------------
+-- Table structure for signin_menu
+-- ----------------------------
 DROP TABLE IF EXISTS `signin_menu`;
-
 CREATE TABLE `signin_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `menuname` varchar(255) NOT NULL,
@@ -45,16 +254,21 @@ CREATE TABLE `signin_menu` (
   `url` varchar(255) NOT NULL,
   `pid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
-/*Data for the table `signin_menu` */
+-- ----------------------------
+-- Records of signin_menu
+-- ----------------------------
+INSERT INTO `signin_menu` VALUES ('1', '签到管理', 'credit-card', '', '0');
+INSERT INTO `signin_menu` VALUES ('3', '客户列表', 'plus', '/admin/all/', '1');
+INSERT INTO `signin_menu` VALUES ('2', '新增客户', 'user-plus', '/admin/useradd/', '1');
+INSERT INTO `signin_menu` VALUES ('34', '抽奖系统', 'user-plus', '', '0');
+INSERT INTO `signin_menu` VALUES ('35', '抽奖管理', 'user-plus', '/admin/lucky/', '34');
 
-insert  into `signin_menu`(`id`,`menuname`,`icon`,`url`,`pid`) values (1,'签到管理','credit-card','',0),(3,'客户列表','plus','/admin/all/',1),(2,'新增客户','user-plus','/admin/useradd/',1);
-
-/*Table structure for table `signin_users` */
-
+-- ----------------------------
+-- Table structure for signin_users
+-- ----------------------------
 DROP TABLE IF EXISTS `signin_users`;
-
 CREATE TABLE `signin_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` char(20) NOT NULL COMMENT '签到客户姓名',
@@ -67,13 +281,16 @@ CREATE TABLE `signin_users` (
   `update_time` int(11) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `tel` (`telephone`)
-) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
-/*Data for the table `signin_users` */
-
-insert  into `signin_users`(`id`,`name`,`sex`,`telephone`,`signin`,`comment`,`create_time`,`signin_time`,`update_time`) values (47,'y',1,'13666622211',2,'没有update_time',1480650578,NULL,NULL),(48,'tt',1,'13699996663',1,'782rr他',1480650726,1481102865,1480758318),(52,'马蓉',2,'13877774452',2,'达到的接撒打开撒 的挥洒接电话撒撒的谎撒谎的 大俗就看撒谎的爱上的能力啥的萨达哈撒10大坏蛋爱上',1480901219,NULL,1480917411),(54,'333w',2,'13265485555',2,'',1480929799,NULL,1480929799),(57,'src',1,'13666662201',2,'ff2',1481858336,NULL,1481858336),(55,'2211',1,'13655556666',1,'',1480929846,1481795467,1480929846),(56,'王DOe',2,'13633332214',2,'达到i',1481104493,NULL,1481795505);
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+-- ----------------------------
+-- Records of signin_users
+-- ----------------------------
+INSERT INTO `signin_users` VALUES ('58', '007', '1', '13655551102', '1', '股份的股份', '1481868449', '1481868462', '1481868531');
+INSERT INTO `signin_users` VALUES ('47', 'y', '1', '13666622211', '2', '没有update_time', '1480650578', null, null);
+INSERT INTO `signin_users` VALUES ('48', 'tt', '1', '13699996663', '1', '782rr他', '1480650726', '1481102865', '1480758318');
+INSERT INTO `signin_users` VALUES ('52', '马蓉', '2', '13877774452', '2', '达到的接撒打开撒 的挥洒接电话撒撒的谎撒谎的 大俗就看撒谎的爱上的能力啥的萨达哈撒10大坏蛋爱上', '1480901219', null, '1480917411');
+INSERT INTO `signin_users` VALUES ('54', '333w', '2', '13265485555', '2', '', '1480929799', null, '1480929799');
+INSERT INTO `signin_users` VALUES ('57', 'src', '1', '13666662201', '2', 'ff2', '1481858336', null, '1481858336');
+INSERT INTO `signin_users` VALUES ('55', '2211', '1', '13655556666', '1', '', '1480929846', '1481795467', '1480929846');
+INSERT INTO `signin_users` VALUES ('56', '王DOe', '2', '13633332214', '2', '达到i', '1481104493', null, '1481795505');
