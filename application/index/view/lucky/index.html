@@ -50,12 +50,12 @@
         width: 90%;
         /*width: 100%;*/
         margin: 0 auto;
-        height: 40%;
-        font-size: 30px;
+        /*height: 40%;*/
+        font-size: 80px;
         color: #fff;
-        text-align: left;
+        text-align: center;
         margin-top: 20px;
-        overflow-y: auto;
+        /*overflow-y: auto;*/
     }
     .hide{display: none;}
 </style>
@@ -82,29 +82,34 @@
         var timer;//定时器
         var flag=true;
         var noLuckyNum=null;//未中奖号码
-
+        var luckyNum=[];//中奖号码
+        var lunItem=1;//抽奖轮次序号1-11
+        var lunNum=null;//每轮抽奖产生的中奖号码个数
+        var numHtml='';//每轮抽奖环节的标题
+        var selfNum=[1,2,3];//特殊号码
+        var params=null;//ajax请求参数
 
 
 
         // 从数据库获取未中奖客户数据
-        $.ajax({
-            url: '{:url("returndata")}?r='+Math.random(),
-            type: 'POST',
-            dataType: 'json',
-            async:false
-            // data: {param1: 'value1'},
-        })
-        .done(function(data) {
-            // console.log(typeof(data));//object
-            // console.log(data);
-            noLuckyNum=data;
-        })
-        .fail(function() {
-            console.log("error");
-        });
+        function getData(params){
+            $.ajax({
+                url: '{:url("returndata")}?r='+Math.random(),
+                type: 'POST',
+                dataType: 'json',
+                async:false,
+                data: {param: params},
+            })
+            .done(function(data) {
+                // console.log(typeof(data));//object
+                // console.log(data);
+                noLuckyNum=data;
+            })
+            .fail(function() {
+                console.log("error");
+            });
+        }
 
-        // console.log('未中奖号码'+noLuckyNum);
-        console.log(noLuckyNum);
 
 
 
@@ -132,55 +137,44 @@
 
 
 
-        var luckyNum=[];
-        var lunItem=1;
-        var numHtml='';
-        var numHtml1='';
+
 
         // 切换抽奖轮数
         function changeLun(){
             switch (lunItem) {
                 case 1:
-                    lunNum=20;
+                    lunNum=30;
                     numHtml='三等奖第一轮';
                     break;
                 case 2:
-                    lunNum=20;
+                    lunNum=30;
                     numHtml='三等奖第二轮';
                     break;
                 case 3:
-                    lunNum=20;
-                    numHtml='三等奖第三轮';
-                    break;
-                case 4:
-                    lunNum=10;
+                    lunNum=15;
                     numHtml='二等奖第一轮';
                     break;
-                case 5:
-                    lunNum=10;
+                case 4:
+                    lunNum=15;
                     numHtml='二等奖第二轮';
                     break;
-                case 6:
-                    lunNum=10;
-                    numHtml='二等奖第三轮';
-                    break;
-                case 7:
+                case 5:
                     lunNum=1;
                     numHtml='一等奖第一轮';
                     break;
-                case 8:
+                case 6:
                     lunNum=1;
                     numHtml='一等奖第二轮';
                     break;
-                case 9:
+                case 7:
                     lunNum=1;
                     numHtml='一等奖第三轮';
                     break;
-                case 10:
+                case 8:
                     lunNum=1;
                     numHtml='特等奖第一轮';
                     break;
-                case 11:
+                case 9:
                     lunNum=1;
                     numHtml='特等奖第二轮';
                     break;
@@ -190,52 +184,66 @@
             }
         }
 
+
+        //从一个给定的数组arr中,随机返回num个不重复项
+        function getArrayItems(arr, num) {
+            //新建一个数组,将传入的数组复制过来,用于运算,而不要直接操作传入的数组;
+            var temp_array = new Array();
+            for (var index in arr) {
+                temp_array.push(arr[index]);
+            }
+            //取出的数值项,保存在此数组
+            var return_array = new Array();
+            for (var i = 0; i<num; i++) {
+                //判断如果数组还有可以取出的元素,以防下标越界
+                if (temp_array.length>0) {
+                    //在数组中产生一个随机索引
+                    var arrIndex = Math.floor(Math.random()*temp_array.length);
+                    //将此随机索引的对应的数组元素值复制出来
+                    return_array[i] = temp_array[arrIndex];
+                    //然后删掉此索引的数组元素,这时候temp_array变为新的数组
+                    temp_array.splice(arrIndex, 1);
+                } else {
+                    //数组中数据项取完后,退出循环,比如数组本来只有10项,但要求取出20项.
+                    break;
+                }
+            }
+            return return_array;
+        }
+
+
         // 产生中奖号码并写如数据库
         function run() {
             // console.log(noLuckyNum)
-            luckyNum=[];
-            // var lunItem=4;//第几轮抽奖
-            // var lunNum=0;//每次抽取的中奖号码个数
             changeLun();
-
-
-            for (var i = 0; i < lunNum; i++) {
-                if(numHtml.indexOf('一等奖')!=-1){
-                    var random=Math.floor(Math.random() * selfNum.length);
-                    var luckyNum1=selfNum[random];//得到随机中奖号码
-
-                    // alert(luckyNum1)
-                    // selfNum.removeByValue(luckyNum1);//从数组中移除中奖号码
-                    // noLuckyNum=selfNum;//特殊处理
-                }else{
-                    var random=Math.floor(Math.random() * noLuckyNum.length);
-                    var luckyNum1=noLuckyNum[random];//得到随机中奖号码
-
-                    // alert(luckyNum1)
-                    // noLuckyNum.removeByValue(luckyNum1);//从数组中移除中奖号码
+            //一等奖特殊处理
+            if(numHtml.indexOf('一等奖')!=-1){
+                luckyNum=getArrayItems(selfNum,lunNum);//得到随机不重复中奖号码
+            }else{
+                if(noLuckyNum){
+                    luckyNum=getArrayItems(noLuckyNum,lunNum);//得到随机不重复中奖号码
                 }
+            };
+            // console.log(luckyNum);
+            if(luckyNum.length>0){
+                $.ajax({
+                    url: '{:url("updateLucky")}?r='+Math.random(),
+                    type: 'POST',
+                    // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+                    data: {'num':luckyNum,'lun':lunItem},
+                })
+                .done(function(data) {
+                    console.log(data)
+                    if(data==1){
+                        console.log('更新成功');
+                    }
 
-                // console.log(numHtml.indexOf('一等奖'))
-
-                // console.log(random)
-                luckyNum.push(luckyNum1);
-                luckyNum1=buquan(luckyNum1,3);
-
+                })
+                .fail(function() {
+                    console.log("error");
+                });
             }
-            console.log(luckyNum)
 
-            $.ajax({
-                url: '{:url("updateLucky")}?r='+Math.random(),
-                type: 'POST',
-                // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-                data: {'num':luckyNum,'lun':lunItem},
-            })
-            .done(function(data) {
-                // console.log(data);
-            })
-            .fail(function() {
-                console.log("error");
-            });
 
 
 
@@ -246,8 +254,9 @@
 
             // console.log(1);
             clearInterval(timer);
-
-
+            getData();
+            // console.log('未中奖号码'+noLuckyNum);
+            console.log(noLuckyNum);//未中奖号码 一维数组
             if(noLuckyNum.length>0){
                 timer = setInterval(numRun, 50);
                 run();
@@ -260,29 +269,17 @@
         // 停止抽奖
         function end() {
             clearInterval(timer);
-            var delNum=luckyNum;
-            console.log('中奖号码'+luckyNum)
-            /*for (var i = 0; i < luckyNum.length; i++) {
-                noLuckyNum.removeByValue(luckyNum[i]);
-            }*/
-            // console.log(noLuckyNum)
-            // allNum.innerHTML=noLuckyNum;
+            console.log('中奖号码'+luckyNum);
             if(noLuckyNum.length==0){
                 oStart.disabled=true;
                 oEnd.disabled=true;
             }
             flag=true;
             changeLun();
-            num.innerHTML=numHtml;
-            // getNum.innerHTML+=numHtml+'：'+delNum+'<br>';
-            var newItem=document.createElement("div");
-            newItem.innerHTML=numHtml +'：'+delNum+'<br>';
-            getNum.insertBefore(newItem,getNum.childNodes[1]);
+            num.innerHTML=numHtml;//中间显示抽奖环节标题
 
+            getNum.innerHTML='恭喜本轮中奖号码：<br><p>'+luckyNum+'</p>';//显示本轮中奖号码
 
-            // getNum.innerHTML+=
-            // getNum.innerHTML=delNum+'、';
-            // console.log(num.innerHTML)
         }
 
 
@@ -299,7 +296,7 @@
             // 右方向键切换到下一轮抽奖环节
             if(e.keyCode==39){
                 lunItem+=1;
-                if(lunItem==12){
+                if(lunItem==10){
                     lunItem=1;
                 }
                 // console.log(lunItem)
@@ -310,7 +307,7 @@
             if(e.keyCode==37){
                 lunItem-=1;
                 if(lunItem==0){
-                    lunItem=11;
+                    lunItem=9;
                 }
                 // console.log(lunItem)
                 changeLun();

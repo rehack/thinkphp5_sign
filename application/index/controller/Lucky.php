@@ -19,7 +19,8 @@ class Lucky extends Controller
     public function returndata(){
         $data=new LuckyModel;
         $data1=[];
-        $luckyData=$data->field('num')->where('islucky',2)->select();//未中奖客户
+        $where=['islucky'=>2,'status'=>1];
+        $luckyData=$data->field('num')->where($where)->select();//未中奖客户
         // $luckyData=db('lucky')->field('num')->where('islucky',2)->select();//未中奖客户
         foreach ($luckyData as $key => $value) {
             $data1[]=$value['num'];
@@ -35,7 +36,10 @@ class Lucky extends Controller
             $luckyNum=input('post.')['num'];
             $lun=input('post.')['lun'];
             foreach($luckyNum as $data){
-                $luck->where('num', $data)->update(['islucky' => '1','lun'=>$lun]);
+                $res=$luck->where('num', $data)->update(['islucky' => '1','lun'=>$lun]);
+            }
+            if($res){
+                return $res;
             }
         }
     }

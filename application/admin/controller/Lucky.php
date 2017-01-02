@@ -9,10 +9,10 @@ class Lucky extends Base
 	public function index()
 	{
         // 添加客户数据
-        for ($i=1; $i <=95; $i++) {
+        /*for ($i=1; $i <=95; $i++) {
             # code...
             db('lucky')->insert(['num'=>$i]);
-        }
+        }*/
 
 		return $this->fetch();
 	}

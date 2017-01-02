@@ -105,7 +105,6 @@
             singleSelect: true, //单选
 
         });
-        timeRefresh();
     });
 
     function statusformater(value, row, index) {
@@ -244,29 +243,6 @@
 
     });
 
-    // 点击签到
-    function startsign(id){
-        // alert(id)
-        if(id){
-            $.ajax({
-                url: '{:url("startSign")}?r='+Math.random(),
-                type: 'POST',
-                dataType: 'html',
-                data: {id: id},
-            })
-            .done(function(data) {
-                console.log(data);
-                if(data=='"签到成功！"'){
-                    $('#dg').datagrid('reload');
-                }else{
-                    alert(data)
-                }
-            })
-            .fail(function() {
-                alert("发生错误");
-            });
-        }
-    }
 
 
 
