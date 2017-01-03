@@ -78,11 +78,20 @@
         <button class="hide" id="reset">重置</button>
         <div class="hide" id="all_nums"></div>
     </div>
+    <audio id="runingmic" class="hide" loop><source src="__PUBLIC__static/music/runing.wav"></audio>
+    <audio id="pausemic" class="hide"><source src="__PUBLIC__static/music/stop.mp3"></audio>
+
+
+
     <script src="__PUBLIC__static/js/jquery-1.12.4.min.js"></script>
     <script>
     $(function(){
         var num = document.getElementById('num');//中间滚动的号码
         var getNum = document.getElementById('get_num');//显示中奖的号码
+        var runingmic = document.getElementById('runingmic');//滚动时音效
+        var pausemic = document.getElementById('pausemic');//中奖音效
+        runingmic.volume=0.5;
+        pausemic.volume=1.0;
         var timer;//定时器
         var flag=true;
         var noLuckyNum=null;//未中奖号码
@@ -297,8 +306,11 @@
             if(e.keyCode==32 && flag){
                 // console.log(e.keyCode);
                 start();
+                runingmic.play();
             }else if (e.keyCode==32 && !flag) {
                 end();
+                runingmic.pause();
+                pausemic.play();
             }
             // 右方向键切换到下一轮抽奖环节
             if(e.keyCode==39){
