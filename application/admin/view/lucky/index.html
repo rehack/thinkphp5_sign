@@ -57,10 +57,13 @@
                 <a href="{:url('export')}" class="easyui-linkbutton" plain="true" target="_self"><span class="glyphicon glyphicon-export"></span>导出数据</a>
             </div>
             <div class="btn-toolbar" role="toolbar" style="margin-bottom: 8px;">
-                <div class="btn-group btn-group-sm signin">
+                <!-- <div class="btn-group btn-group-sm signin">
                     <button type="button" class="btn btn-info" data-signin="0">全部客户<span class="total"></span>人</button>
                     <button type="button" class="btn btn-success" data-signin="1">已签到客户<span class="signed"></span>人</button>
                     <button type="button" class="btn btn-warning" data-signin="2">未签到客户<span class="nosign"></span>人</button>
+                </div> -->
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default"><a href="/index/lucky" target="_blank">抽奖界面</a></button>
                 </div>
             </div>
 
@@ -92,7 +95,7 @@
                 // {field:'id',title:'id',width:80},
                 {field:'num',title:'编号',width:80},
                 {field:'islucky',title:'中奖状态',formatter:statusformater,sortable:true,width:45},
-                {field:'lun',title:'奖项',width:80}
+                {field:'lun',title:'中奖记录',width:80}
             ]],
             toolbar: "#toolbar",
             fitColumns: true, //表格宽度自适应
