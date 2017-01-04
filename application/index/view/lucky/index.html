@@ -154,7 +154,7 @@
 
             // getData('all');
             var allNums=[];
-            for(var i=1;i<=400;i++){
+            for(var i=1;i<=600;i++){
                 allNums.push(i);
             }
             console.log(allNums);
@@ -363,8 +363,8 @@
 
             }
 
-            //清除本地所有存储数据
-            if(e.keyCode==27){
+            //Ctrl+Z清除本地所有存储数据
+            if(e.ctrlKey && e.keyCode==90){
                 localStorage.clear();
             }
 
