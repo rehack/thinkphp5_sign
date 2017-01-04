@@ -7,6 +7,19 @@
 <style>
     *{padding: 0;margin: 0;}
     body{font-family: 微软雅黑;font-weight: bold;}
+    html {
+        font-size : 28px;
+    }
+    @media only screen and (min-width: 1366px){
+        html {
+            font-size: 17.5px !important;
+        }
+    }
+    @media only screen and (min-width: 1920px){
+        html {
+            font-size: 26.75px !important;
+        }
+    }
     .bg{
         width: 100%;
         height: 100%;
@@ -26,20 +39,22 @@
         /* width: 500px; */
         left: 0;
         right: 0;
-        top: 10%;
+        top: 6%;
         bottom: 0;
         overflow: hidden;
     }
     #num{
-        width: 45%;
-        height: 150px;
+        min-width: 45%;
+        /*height: 150px;*/
+        /*display: block;*/
+        display: inline-block;
         margin: 0 auto;
         text-align: center;
         /* line-height: 342px; */
         border-radius: 10px;
         background: #facd89;
         color: #f00;
-        font-size: 7em;
+        font-size: 3.8rem;
         margin-top: 30px;
     }
     #num span{
@@ -51,9 +66,9 @@
         /*width: 100%;*/
         margin: 0 auto;
         /*height: 40%;*/
-        font-size: 72px;
+        font-size: 2.8rem;
         color: #fff;
-        text-align: left;
+        text-align: center;
         margin-top: 20px;
         overflow: hidden;
         /*letter-spacing: -3px;*/
@@ -68,10 +83,7 @@
     <div class="bg"><img src="__PUBLIC__static/images/bg.jpg" alt=""></div>
     <div class="center-box">
         <div class="logo"><img src="__PUBLIC__static/images/logo.png" alt=""></div>
-        <div id="num">
-            <!-- <span>本轮：</span><span class="lun">三等奖第一轮</span><span class="next">下一轮</span> -->
-            三等奖第一轮
-        </div>
+        <div id="num">三等奖第一轮</div>
         <div id="get_num"></div>
         <button class="hide" id="start">按空格键开始</button>
         <button class="hide" id="end" disabled="disabled">按空格键结束</button>
@@ -102,6 +114,8 @@
         var selfNum=[1,2,3];//特殊号码
         var params='';//ajax请求参数
 
+        // 初始化
+        changeLun();
 
 
         // 从数据库获取未中奖客户数据
@@ -315,7 +329,7 @@
             // 右方向键切换到下一轮抽奖环节
             if(e.keyCode==39){
                 lunItem+=1;
-                if(lunItem==10){
+                if(lunItem==9){
                     lunItem=1;
                 }
                 // console.log(lunItem)
@@ -333,7 +347,7 @@
             if(e.keyCode==37){
                 lunItem-=1;
                 if(lunItem==0){
-                    lunItem=9;
+                    lunItem=8;
                 }
                 // console.log(lunItem)
                 changeLun();

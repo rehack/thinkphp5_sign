@@ -246,11 +246,11 @@ return [
         'useNoise' =>false,
         // 'useCurve' =>false,
     ],
-    // 开启应用Trace调试
+    /*// 开启应用Trace调试
     'app_trace' =>  true,
     // 设置Trace显示方式
     'trace'     =>  [
         // 在当前Html页面显示Trace信息
         'type'  =>  'html',
-    ]
+    ]*/
 ];
