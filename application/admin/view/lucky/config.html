@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="__PUBLIC__static/bootstrap/css/bootstrap.full.css">
+    <script src="__PUBLIC__static/easyui/js/jquery.min.js" type="text/javascript"></script>
+    <script src="__PUBLIC__static/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="modal fade" id="conforModal">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
+                    <h4 class="modal-title glyphicon glyphicon-conf" id="confTitle">参数设置</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form" role="form" id="confForm">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label class="control-label" for="totalNum">总参与抽奖人数</label>
+                                <input class="form-control" id="totalNum" type="text" name="totalNum" placeholder="数字" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label class="control-label" for="selfNums">内部号</label>
+                                <input class="form-control" id="selfNums" name="selfNums" type="text" placeholder="数字以,隔开" required="required" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span class="pull-left text-danger addconmsg"></span>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="confSubmit">保存</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            $('#conforModal').modal({backdrop:false});
+            $('#confSubmit').on('click',function(){
+                if($('#totalNum').val()==''){
+                    alert('请填写总人数');
+                    return false;
+                }
+
+                $.ajax({
+                    url: '{:url("myconf")}?r='+Math.random(),
+                    type: 'GET',
+                    dataType: 'html',
+                    data: $('#confForm').serialize(),
+                })
+                .done(function(data) {
+                    console.log(data);
+                })
+                .fail(function() {
+                    console.log("error");
+                });
+
+            })
+        });
+    </script>
+</body>
+</html>

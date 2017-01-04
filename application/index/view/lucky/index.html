@@ -44,7 +44,7 @@
         overflow: hidden;
     }
     #num{
-        min-width: 45%;
+        min-width: 25%;
         /*height: 150px;*/
         /*display: block;*/
         display: inline-block;
@@ -83,14 +83,15 @@
     <div class="bg"><img src="__PUBLIC__static/images/bg.jpg" alt=""></div>
     <div class="center-box">
         <div class="logo"><img src="__PUBLIC__static/images/logo.png" alt=""></div>
-        <div id="num">三等奖第一轮</div>
+        <div id="num">三等奖</div>
         <div id="get_num"></div>
         <button class="hide" id="start">按空格键开始</button>
         <button class="hide" id="end" disabled="disabled">按空格键结束</button>
         <button class="hide" id="reset">重置</button>
         <div class="hide" id="all_nums"></div>
     </div>
-    <audio id="runingmic" class="hide" loop><source src="__PUBLIC__static/music/runing.wav"></audio>
+    <audio id="runingmic" class="hide" loop><source src="__PUBLIC__static/music/runing.mp3"></audio>
+    <!-- <audio id="runingmic" class="hide" loop><source src="__PUBLIC__static/music/runing.wav"></audio> -->
     <audio id="pausemic" class="hide"><source src="__PUBLIC__static/music/stop.mp3"></audio>
 
 
@@ -102,7 +103,7 @@
         var getNum = document.getElementById('get_num');//显示中奖的号码
         var runingmic = document.getElementById('runingmic');//滚动时音效
         var pausemic = document.getElementById('pausemic');//中奖音效
-        runingmic.volume=0.5;
+        runingmic.volume=1.0;
         pausemic.volume=1.0;
         var timer;//定时器
         var flag=true;
@@ -184,35 +185,35 @@
             switch (lunItem) {
                 case 1:
                     lunNum=30;
-                    numHtml='三等奖第一轮';
+                    numHtml='三等奖';
                     break;
                 case 2:
                     lunNum=30;
-                    numHtml='三等奖第二轮';
+                    numHtml='三等奖';
                     break;
                 case 3:
                     lunNum=30;
-                    numHtml='二等奖第一轮';
+                    numHtml='二等奖';
                     break;
                 case 4:
                     lunNum=1;
-                    numHtml='一等奖第一轮';
+                    numHtml='一等奖';
                     break;
                 case 5:
                     lunNum=1;
-                    numHtml='一等奖第二轮';
+                    numHtml='一等奖';
                     break;
                 case 6:
                     lunNum=1;
-                    numHtml='一等奖第三轮';
+                    numHtml='一等奖';
                     break;
                 case 7:
                     lunNum=1;
-                    numHtml='特等奖第一轮';
+                    numHtml='特等奖';
                     break;
                 case 8:
                     lunNum=1;
-                    numHtml='特等奖第二轮';
+                    numHtml='特等奖';
                     break;
                 default:
                     // statements_def

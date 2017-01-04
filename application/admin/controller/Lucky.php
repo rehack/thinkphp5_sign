@@ -8,14 +8,33 @@ class Lucky extends Base
 {
 	public function index()
 	{
-        // 添加客户数据
-        /*for ($i=1; $i <=95; $i++) {
-            # code...
-            db('lucky')->insert(['num'=>$i]);
-        }*/
-
 		return $this->fetch();
 	}
+
+    // 参数配置
+    public function confshow(){
+        return $this->fetch('config');
+    }
+    public function myconf(){
+        // 添加客户数据
+        $totalNum=input('totalNum');
+        $selfNums=input('selfNums');
+        // dump($totalNum);die;
+
+        \think\Db::execute('TRUNCATE signin_lucky');
+        for ($i=1; $i <=$totalNum; $i++) {
+            db('lucky')->insert(['num'=>$i]);
+        }
+
+        if($selfNums){
+            $selfNumsArr=explode(',',$selfNums);
+            // LuckyModel::update(['status',1]);
+            \think\Db::execute('UPDATE signin_lucky SET status=1');
+            foreach($selfNumsArr as $data){
+                LuckyModel::update(['id' => $data, 'status' => 0]);
+            }
+        }
+    }
 
     // 数据统计
     public function count(){
