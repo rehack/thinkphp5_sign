@@ -35,7 +35,24 @@ class Lucky extends Base
             }
         }
     }
+    // 中奖记录查询
+    public function luckList(){
+        $list=LuckyModel::field('num,lun')->where('islucky',1)->order('lun')->select();
+        // dump($list->toArray());die();
+        // dump($list);die();
+        $count=LuckyModel::field('lun')->group('lun')->order('lun')->select();
+        // return json($list);die();
+        if($count&&$list){
+        // dump($count);die();
 
+            $this->assign(['list'=>$list,'count'=>$count]);
+        }else{
+            $list=[];
+            $this->assign(['list'=>$list,'count'=>$count]);
+        }
+        // $this->assign('list',$list);
+        return $this->fetch();
+    }
     // 数据统计
     public function count(){
         $total=LuckyModel::count();
@@ -97,47 +114,7 @@ class Lucky extends Base
 	}
 
 
-	// 点击签到
-	public function startSign(){
-		if(Request()->isPost()){
-			$uid=input('id');
-			if($uid){
-				$issign=Users::where('id',$uid)
-				->update(['signin'=>1,'signin_time'=>time()]);
-				// return($issign);
-				if($issign>0){
-					return '签到成功！';
-				}else{
-					return '签到失败';
-				}
-			}
 
-		}
-	}
-
-	// 编辑客户资料
-	public function edit(){
-		if(Request()->isPost()){
-			// $user=new Users;
-			$data=input('post.');
-			if(input('id')){
-				Users::update($data);//静态方法更新
-				return '更新用户成功';
-			}
-		}
-	}
-
-	// 删除客户
-	public function delete($id=null){
-		if($id){
-			$delResult=Users::destroy($id);
-			if($delResult){
-				return '删除客户成功';
-			}else{
-				return '删除的客户不存在';
-			}
-		}
-	}
 
 	// 导出Excel
 	public function export(){

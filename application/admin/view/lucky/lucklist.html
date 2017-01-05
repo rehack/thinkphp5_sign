@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>中奖记录列表</title>
+</head>
+<body>
+<h2 style="text-align: center;">中奖记录列表</h2>
+<ul>
+
+    <li>
+        <p>
+            三等奖第一轮：
+            {volist name='list' id='vo'}
+                {if condition="$vo.lun eq 1"}
+                    &nbsp;{$vo.num}
+                {/if}
+            {/volist}
+        </p>
+    </li>
+    <li>
+        <p>
+            三等奖第二轮：
+            {volist name='list' id='vo'}
+                {if condition="$vo.lun eq 2"}
+                    &nbsp;{$vo.num}
+                {/if}
+            {/volist}
+        </p>
+    </li>
+    <li>
+        <p>
+            二等奖第一轮：
+            {volist name='list' id='vo'}
+                {if condition="$vo.lun eq 3"}
+                    &nbsp;{$vo.num}
+                {/if}
+            {/volist}
+        </p>
+    </li>
+    <li>
+        <p>
+            一等奖第一轮：
+            {volist name='list' id='vo'}
+                {if condition="$vo.lun eq 4"}
+                    &nbsp;{$vo.num}
+                {/if}
+            {/volist}
+        </p>
+    </li>
+    <li>
+        <p>
+            一等奖第二轮：
+            {volist name='list' id='vo'}
+                {if condition="$vo.lun eq 5"}
+                    &nbsp;{$vo.num}
+                {/if}
+            {/volist}
+        </p>
+    </li>
+    <li>
+        <p>
+            一等奖第三轮：
+            {volist name='list' id='vo'}
+                {if condition="$vo.lun eq 6"}
+                    &nbsp;{$vo.num}
+                {/if}
+            {/volist}
+        </p>
+    </li>
+    <li>
+        <p>
+            特等奖第一轮：
+            {volist name='list' id='vo'}
+                {if condition="$vo.lun eq 7"}
+                    &nbsp;{$vo.num}
+                {/if}
+            {/volist}
+        </p>
+    </li>
+    <li>
+        <p>
+            特等奖第二轮：
+            {volist name='list' id='vo'}
+                {if condition="$vo.lun eq 8"}
+                    &nbsp;{$vo.num}
+                {/if}
+            {/volist}
+        </p>
+    </li>
+</ul>
+
+
+
+</body>
+</html>
