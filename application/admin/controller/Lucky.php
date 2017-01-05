@@ -40,7 +40,7 @@ class Lucky extends Base
         $list=LuckyModel::field('num,lun')->where('islucky',1)->order('lun')->select();
         // dump($list->toArray());die();
         // dump($list);die();
-        $count=LuckyModel::field('lun')->group('lun')->order('lun')->select();
+        $count=LuckyModel::where('islucky',1)->count();
         // return json($list);die();
         if($count&&$list){
         // dump($count);die();
