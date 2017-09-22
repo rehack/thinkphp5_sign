@@ -1,0 +1,27 @@
+{
+  "name": "js-lucky-draw",
+  "version": "1.0.0",
+  "description": "这是一个使用ES6语法（主要是ES6类、let、箭头函数、模板字符串`${}`的使用）编写的一个抽奖程序，主要功能如下：\r 1. 使用了html5 localStorage来存储中奖的号码\r 2. 按空格键可以开始和停止抽奖\r 3. 按左右方向键可以切换上一轮或下一轮抽奖环节\r 4. 按Ctrl + z组合键可以清除所有的中奖记录\r 5. 方向上键可以查询所有中奖记录\r 6. 执行npm run build 即可编译es6->es5\r 7. 在IE9+下面运行改程序，必须先将该程序放到服务器环境，否则IE doesn't support localStorage for local files",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel js/main.js --out-file js/es5.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codesboy/js-lucky-draw.git"
+  },
+  "keywords": ["ES6","lucky-draw"],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codesboy/js-lucky-draw/issues"
+  },
+  "homepage": "https://github.com/codesboy/js-lucky-draw#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2"
+  },
+  "babel": {
+    "presets": ["env"]
+  }
+}

@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 use app\admin\model\Lucky as LuckyModel;
+use app\index\model\Uploads as UploadsModel;
 /**
 *
 */
@@ -68,5 +69,20 @@ class Lucky extends Controller
                 return $data1;
             }
         }
+    }
+
+    // 获取获取签到数据信息
+    public function getUploadsData()
+    {
+        $data=UploadsModel::where('sign_num','>',0)->order('create_time','desc')->select();
+        // $this->assign('data',$data);
+        // return $this->fetch();
+        return json($data);
+    }
+
+    // 获取所有签到号码
+    public function getSignNums(){
+        $data=UploadsModel::where('sign_num','>',0)->column('sign_num');
+        return json($data);
     }
 }

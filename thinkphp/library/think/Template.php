@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2016 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2017 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -12,7 +12,6 @@
 namespace think;
 
 use think\exception\TemplateNotFoundException;
-use think\Request;
 
 /**
  * ThinkPHP分离出来的模板引擎
@@ -58,8 +57,9 @@ class Template
     protected $storage;
 
     /**
-     * 架构函数
+     * 构造函数
      * @access public
+     * @param array $config
      */
     public function __construct(array $config = [])
     {
@@ -130,7 +130,7 @@ class Template
         } elseif (isset($this->config[$config])) {
             return $this->config[$config];
         } else {
-            return null;
+            return;
         }
     }
 
@@ -669,7 +669,7 @@ class Template
             $content = str_replace($matches[0], '', $content);
             return explode(',', $matches['name']);
         }
-        return null;
+        return;
     }
 
     /**
@@ -764,31 +764,26 @@ class Template
                             } else {
                                 if (isset($array[1])) {
                                     $this->parseVar($array[2]);
-                                    $_name = ' && ' . $name . $array[1] . $array[2];
+                                    $express = $name . $array[1] . $array[2];
                                 } else {
-                                    $_name = '';
+                                    $express = false;
                                 }
                                 // $name为数组
                                 switch ($first) {
                                     case '?':
                                         // {$varname??'xxx'} $varname有定义则输出$varname,否则输出xxx
-                                        $str = '<?php echo isset(' . $name . ')' . $_name . ' ? ' . $name . ' : ' . substr($str, 1) . '; ?>';
+                                        $str = '<?php echo ' . ($express ?: 'isset(' . $name . ')') . '?' . $name . ':' . substr($str, 1) . '; ?>';
                                         break;
                                     case '=':
                                         // {$varname?='xxx'} $varname为真时才输出xxx
-                                        $str = '<?php if(!empty(' . $name . ')' . $_name . ') echo ' . substr($str, 1) . '; ?>';
+                                        $str = '<?php if(' . ($express ?: '!empty(' . $name . ')') . ') echo ' . substr($str, 1) . '; ?>';
                                         break;
                                     case ':':
                                         // {$varname?:'xxx'} $varname为真时输出$varname,否则输出xxx
-                                        $str = '<?php echo !empty(' . $name . ')' . $_name . '?' . $name . $str . '; ?>';
+                                        $str = '<?php echo ' . ($express ?: '!empty(' . $name . ')') . '?' . $name . $str . '; ?>';
                                         break;
                                     default:
-                                        if (strpos($str, ':')) {
-                                            // {$varname ? 'a' : 'b'} $varname为真时输出a,否则输出b
-                                            $str = '<?php echo !empty(' . $name . ')' . $_name . '?' . $str . '; ?>';
-                                        } else {
-                                            $str = '<?php echo ' . $_name . '?' . $str . '; ?>';
-                                        }
+                                        $str = '<?php echo ' . ($express ?: '!empty(' . $name . ')') . '?' . $str . '; ?>';
                                 }
                             }
                         } else {
@@ -928,7 +923,7 @@ class Template
                         if (false === strpos($name, '(')) {
                             $name = '(isset(' . $name . ') && (' . $name . ' !== \'\')?' . $name . ':' . $args[1] . ')';
                         } else {
-                            $name = '(' . $name . ' !== \'\'?' . $name . ':' . $args[1] . ')';
+                            $name = '(' . $name . ' ?: ' . $args[1] . ')';
                         }
                         break;
                     default: // 通用模板函数

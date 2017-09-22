@@ -3,379 +3,71 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>成都贝臣齿科答谢会抽奖</title>
-<style>
-    *{padding: 0;margin: 0;}
-    body{font-family: 微软雅黑;font-weight: bold;}
-    html {
-        font-size : 28px;
-    }
-    @media only screen and (min-width: 1366px){
-        html {
-            font-size: 17.5px !important;
-        }
-    }
-    @media only screen and (min-width: 1920px){
-        html {
-            font-size: 26.75px !important;
-        }
-    }
-    .bg{
-        width: 100%;
-        height: 100%;
-
-    }
-    .bg img{
-        width: 100%;
-        height: 100%;
-        position:absolute;
-        z-index:-1;
-        top:0px;
-        left:0px;
-    }
-    .center-box{
-        text-align: center;
-        position: absolute;
-        /* width: 500px; */
-        left: 0;
-        right: 0;
-        top: 6%;
-        bottom: 0;
-        overflow: hidden;
-    }
-    #num{
-        min-width: 25%;
-        /*height: 150px;*/
-        /*display: block;*/
-        display: inline-block;
-        margin: 0 auto;
-        text-align: center;
-        /* line-height: 342px; */
-        border-radius: 10px;
-        background: #facd89;
-        color: #f00;
-        font-size: 3.8rem;
-        margin-top: 30px;
-    }
-    #num span{
-        font-size: 12px;
-    }
-    #num .next{color: blue;cursor: pointer;}
-    #get_num{
-        width: 90%;
-        /*width: 100%;*/
-        margin: 0 auto;
-        /*height: 40%;*/
-        font-size: 2.8rem;
-        color: #fff;
-        text-align: center;
-        margin-top: 20px;
-        overflow: hidden;
-        /*letter-spacing: -3px;*/
-        /*word-wrap: break-word;*/
-        /*word-break:break-all;*/
-    }
-    .hide{display: none;}
-    .tit{text-align: center;}
-</style>
+<title>成都贝臣齿科活动抽奖</title>
+<link rel="stylesheet" href="__STATIC__/lucky/css/style.css">
 </head>
 <body>
-    <div class="bg"><img src="__PUBLIC__static/images/bg.jpg" alt=""></div>
+    <div class="bg"><img src="__STATIC__/lucky/images/bg.jpg" alt=""></div>
     <div class="center-box">
-        <div class="logo"><img src="__PUBLIC__static/images/logo.png" alt=""></div>
-        <div id="num">三等奖</div>
-        <div id="get_num"></div>
-        <button class="hide" id="start">按空格键开始</button>
-        <button class="hide" id="end" disabled="disabled">按空格键结束</button>
-        <button class="hide" id="reset">重置</button>
+        <div class="logo"><img src="__STATIC__/lucky/images/logo.png" alt=""></div>
+        <div id="turns-heading"></div>
+        <div id="show-lucky"></div>
         <div class="hide" id="all_nums"></div>
+
+        <audio id="play-music" src="__STATIC__/lucky/music/run.mp3" loop></audio>
+        <audio id="stop-music" src="__STATIC__/lucky/music/stop.mp3"></audio>
     </div>
-    <audio id="runingmic" class="hide" loop><source src="__PUBLIC__static/music/runing.mp3"></audio>
-    <!-- <audio id="runingmic" class="hide" loop><source src="__PUBLIC__static/music/runing.wav"></audio> -->
-    <audio id="pausemic" class="hide"><source src="__PUBLIC__static/music/stop.mp3"></audio>
-
-
-
-    <script src="__PUBLIC__static/js/jquery-1.12.4.min.js"></script>
+    <script src="__STATIC__/lucky/js/main.js"></script>
+    <script src="__STATIC__/js/axios.min.js"></script>
+    <!-- <script src="__STATIC__/lucky/js/es5.js"></script> -->
     <script>
-    $(function(){
-        var num = document.getElementById('num');//中间滚动的号码
-        var getNum = document.getElementById('get_num');//显示中奖的号码
-        var runingmic = document.getElementById('runingmic');//滚动时音效
-        var pausemic = document.getElementById('pausemic');//中奖音效
-        runingmic.volume=1.0;
-        pausemic.volume=1.0;
-        var timer;//定时器
-        var flag=true;
-        var noLuckyNum=null;//未中奖号码
-        var luckyNum=[];//中奖号码
-        var lunItem=1;//抽奖轮次序号1-11
-        var lunNum=null;//每轮抽奖产生的中奖号码个数
-        var numHtml='';//每轮抽奖环节的标题
-        var selfNum=[1,2,3];//特殊号码
-        var params='';//ajax请求参数
-
-        // 初始化
-        changeLun();
-
-
-        // 从数据库获取未中奖客户数据
-        function getData(params){
-            changeLun();
-            //一等奖特殊处理
-            if(numHtml.indexOf('一等奖')!=-1){
-                params='self';
+        window.onload=function(){
+            if(!window.localStorage){
+                alert('您的浏览器不支持window.localStorage! 请更换最新chrome或Firefox');
+                return false;
             }
-            $.ajax({
-                url: '{:url("returndata")}?r='+Math.random(),
-                type: 'POST',
-                dataType: 'json',
-                async:false,
-                data: {param: params},
-            })
-            .done(function(data) {
-                // console.log(typeof(data));//object
-                // console.log(data);
-                noLuckyNum=data;
+            var selfNum=[
+                [1],
+                [],
+                [],
+                [3]
+            ];//每轮内定号码，没有内定号码就设置空数组
 
-            })
-            .fail(function() {
-                console.log("error");
-            });
-            // return data;
-        }
+            function getSignNums(){
+                // axios.post('{:url("lucky/getSignNums")}')
+                axios.post('{:url("lucky/getUploadsData")}')
+                .then(function (response) {
+                    // console.log(response.data.length);//array
+                    console.log(response)
+                    var lucky=new Lucky({
+                        'data':[],//精确的参与抽奖号码（从数据库查询的）
+                        'initNum':[1,40],//参与抽奖号码范围，必须
+                        'numPwrap':'show-lucky',//必须
+                        'turnsWrap':'turns-heading',//必须
+                        'smTitle':['200元代金券','300元代金券','500元代金券','免费种植牙'],//轮次小标题 必须
+                        'runSpeed':30,//号码滚动速度
+                        'isPlay':true,//是否播放音效
+                        'isShowTurn':true,//是否显示轮次标题
+                        'selfNum':selfNum//内定号码
+                    });
 
+                    if(response.status==200 && response.data.length>0){
 
-
-
-
-        // 号码随机滚动
-        function numRun(){
-
-            // getData('all');
-            var allNums=[];
-            for(var i=1;i<=600;i++){
-                allNums.push(i);
-            }
-            console.log(allNums);
-            // return false;
-
-            var random=Math.floor(Math.random() * allNums.length);
-            if(allNums[random]){
-                num.innerHTML = allNums[random];
-            }
-        }
-        //补全前导0
-        function buquan(num,length){
-            var numstr = num.toString();
-            var l=numstr.length;
-            if (l>=length) {return numstr;}
-            for(var  i = 0 ;i<length - l;i++){
-                numstr = "0" + numstr;
-            }
-            return numstr;
-        }
-
-
-
-
-
-        // 切换抽奖轮数
-        function changeLun(){
-            switch (lunItem) {
-                case 1:
-                    lunNum=30;
-                    numHtml='三等奖';
-                    break;
-                case 2:
-                    lunNum=30;
-                    numHtml='三等奖';
-                    break;
-                case 3:
-                    lunNum=30;
-                    numHtml='二等奖';
-                    break;
-                case 4:
-                    lunNum=1;
-                    numHtml='一等奖';
-                    break;
-                case 5:
-                    lunNum=1;
-                    numHtml='一等奖';
-                    break;
-                case 6:
-                    lunNum=1;
-                    numHtml='一等奖';
-                    break;
-                case 7:
-                    lunNum=1;
-                    numHtml='特等奖';
-                    break;
-                case 8:
-                    lunNum=1;
-                    numHtml='特等奖';
-                    break;
-                default:
-                    // statements_def
-                    break;
-            }
-        }
-
-
-        //从一个给定的数组arr中,随机返回num个不重复项
-        function getArrayItems(arr, num) {
-            //新建一个数组,将传入的数组复制过来,用于运算,而不要直接操作传入的数组;
-            var temp_array = new Array();
-            for (var index in arr) {
-                temp_array.push(arr[index]);
-            }
-            //取出的数值项,保存在此数组
-            var return_array = new Array();
-            for (var i = 0; i<num; i++) {
-                //判断如果数组还有可以取出的元素,以防下标越界
-                if (temp_array.length>0) {
-                    //在数组中产生一个随机索引
-                    var arrIndex = Math.floor(Math.random()*temp_array.length);
-                    //将此随机索引的对应的数组元素值复制出来
-                    return_array[i] = temp_array[arrIndex];
-                    //然后删掉此索引的数组元素,这时候temp_array变为新的数组
-                    temp_array.splice(arrIndex, 1);
-                } else {
-                    //数组中数据项取完后,退出循环,比如数组本来只有10项,但要求取出20项.
-                    break;
-                }
-            }
-            return return_array;
-        }
-
-
-        // 产生中奖号码并写如数据库
-        function run() {
-            luckyNum=getArrayItems(noLuckyNum,lunNum);//得到随机不重复中奖号码
-            // console.log(luckyNum);
-            if(luckyNum.length>0){
-                $.ajax({
-                    url: '{:url("updateLucky")}?r='+Math.random(),
-                    type: 'POST',
-                    // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-                    data: {'num':luckyNum,'lun':lunItem},
-                })
-                .done(function(data) {
-                    console.log(data)
-                    if(data==1){
-                        console.log('更新成功');
+                        lucky.data=response.data;
+                    }else{
+                        alert('数据库没有签到号,使用initNum');
                     }
 
+                    // console.log(lucky.data)
+                    lucky.init();
                 })
-                .fail(function() {
-                    console.log("error");
+                .catch(function (error) {
+                    console.log(error);
                 });
             }
+            getSignNums();
 
         }
-
-        // 开始抽奖
-        function start() {
-            // console.log(1);
-            clearInterval(timer);
-            getData(params);
-            // console.log('未中奖号码'+noLuckyNum);
-            console.log(noLuckyNum);//未中奖号码 一维数组
-            if(noLuckyNum.length>0){
-                timer = setInterval(numRun, 50);
-                run();
-                flag=false;
-            }
-            return false;
-
-        }
-
-        // 停止抽奖
-        function end() {
-            clearInterval(timer);
-            console.log('中奖号码'+luckyNum);
-            /*if(noLuckyNum.length==0){
-                oStart.disabled=true;
-                oEnd.disabled=true;
-            }*/
-            flag=true;
-            changeLun();
-            num.innerHTML=numHtml;//中间显示抽奖环节标题
-            luckyNum=luckyNum.join('，');
-            getNum.innerHTML='<p class="tit">恭喜本轮中奖号码：</p> <p>'+luckyNum+'</p>';//显示本轮中奖号码
-            // 本地存储中奖号码
-            if(window.localStorage){
-                var lun='lun'+lunItem;
-                // localStorage.clear();
-                // localStorage.lun=luckyNum;
-                localStorage.setItem(lun,luckyNum);
-            }
-
-        }
-
-
-        document.onkeyup=function(e){
-            var e=e||window.event;
-            // alert(e.keyCode)
-            // 空格键开始和停止抽奖
-            if(e.keyCode==32 && flag){
-                // console.log(e.keyCode);
-                start();
-                runingmic.play();
-            }else if (e.keyCode==32 && !flag) {
-                end();
-                runingmic.pause();
-                pausemic.play();
-            }
-            // 右方向键切换到下一轮抽奖环节
-            if(e.keyCode==39){
-                lunItem+=1;
-                if(lunItem==9){
-                    lunItem=1;
-                }
-                // console.log(lunItem)
-                changeLun();
-                num.innerHTML=numHtml.substring(0,6);
-                var lun='lun'+lunItem;
-                if(localStorage[lun]){
-                    getNum.innerHTML='<p class="tit">恭喜本轮中奖号码：</p> '+localStorage[lun];
-                    // <p class="tit">恭喜本轮中奖号码：</p>
-                }else{
-                    getNum.innerHTML='';
-                }
-            }
-            // 左方向键切换到上一轮抽奖环节
-            if(e.keyCode==37){
-                lunItem-=1;
-                if(lunItem==0){
-                    lunItem=8;
-                }
-                // console.log(lunItem)
-                changeLun();
-                num.innerHTML=numHtml.substring(0,6);
-                var lun='lun'+lunItem;
-                if(localStorage[lun]){
-                    // 显示前一轮中奖记录
-                    getNum.innerHTML='<p class="tit">恭喜本轮中奖号码：</p> '+localStorage[lun];
-                }else{
-                    getNum.innerHTML='';
-                }
-
-            }
-
-            //Ctrl+Z清除本地所有存储数据
-            if(e.ctrlKey && e.keyCode==90){
-                localStorage.clear();
-            }
-
-        }
-
-
-
-
-    })
-
-
     </script>
 </body>
 </html>

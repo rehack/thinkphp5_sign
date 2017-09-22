@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>拍照签到列表</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        body{
+            min-width: 320px;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        a{text-decoration: none;}
+        .menu{display: flex;}
+        .menu li{
+            list-style: none;
+            border-radius: 8px;
+            padding: 3px 10px;
+            background: orange;
+            margin: 5px;
+        }
+        .menu li a{
+            color: #fff;
+
+        }
+
+        .list{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            box-sizing: border-box;
+        }
+        .list li{
+            width: 45%;
+            list-style: none;
+            margin: 10px 5px;
+        }
+        .list li img{
+            border-radius: 50%;
+            width: 100%;
+            /*height: 100%;*/
+        }
+        li p{
+            text-align: center;
+            width: 100%;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <ul class="menu">
+        <li><a href="javascript:;" onclick="reload();">刷新</a></li>
+        <li><a href="{:url('index')}" target="_blank">返回签到拍照</a></li>
+    </ul>
+
+    <ul class="list">
+        {volist name='data' id='vo'}
+        <li><img src="/uploads/{$vo.img_url}" alt=""><p>签到号：{$vo.sign_num}</p></li>
+        {/volist}
+    </ul>
+
+    <script>
+        function reload(){
+            window.location.reload();
+        }
+    </script>
+</body>
+
+</html>

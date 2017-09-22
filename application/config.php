@@ -90,6 +90,8 @@ return [
     'url_param_type'         => 0,
     // 是否开启路由
     'url_route_on'           => true,
+    // 路由使用完整匹配
+    'route_complete_match'   => false,
     // 路由配置文件（支持配置多个）
     'route_config_file'      => ['route'],
     // 是否强制使用路由
@@ -104,6 +106,16 @@ return [
     'url_controller_layer'   => 'controller',
     // 表单请求类型伪装变量
     'var_method'             => '_method',
+    // 表单ajax伪装变量
+    'var_ajax'               => '_ajax',
+    // 表单pjax伪装变量
+    'var_pjax'               => '_pjax',
+    // 是否开启请求缓存 true自动缓存 支持设置请求缓存规则
+    'request_cache'          => false,
+    // 请求缓存有效期
+    'request_cache_expire'   => null,
+    // 全局请求缓存排除规则
+    'request_cache_except'   => [],
 
     // +----------------------------------------------------------------------
     // | 模板设置
@@ -129,7 +141,9 @@ return [
     ],
 
     // 视图输出字符串内容替换
-    'view_replace_str'       => [],
+    'view_replace_str'       => [
+        '__STATIC__' => '/static'
+    ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
@@ -146,7 +160,7 @@ return [
     // 显示错误信息
     'show_error_msg'         => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
-    'exception_handle'       => '',
+    'exception_handle'       => 'app\lib\exception\ExceptionHandler',
 
     // +----------------------------------------------------------------------
     // | 日志设置
@@ -154,7 +168,7 @@ return [
 
     'log'                    => [
         // 日志记录方式，内置 file socket 支持扩展
-        'type'  => 'File',
+        'type'  => 'test',
         // 日志保存目录
         'path'  => LOG_PATH,
         // 日志记录级别
@@ -226,31 +240,4 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
-
-    // 以下是自定义的配置:
-    // 模板输出替换
-    'view_replace_str'  =>  [
-        '__PUBLIC__'=>'/',
-        '__ROOT__' => '/',
-    ],
-
-    // 验证码配置
-    'captcha'  => [
-        // 使用中文验证码
-        // 'useZh' =>true,
-        // 字体大小
-        'fontSize' => 20,
-        // 验证码长度（位数）
-        'length'   => 4,
-        // 'imageW' =>80,
-        'useNoise' =>false,
-        // 'useCurve' =>false,
-    ],
-    /*// 开启应用Trace调试
-    'app_trace' =>  true,
-    // 设置Trace显示方式
-    'trace'     =>  [
-        // 在当前Html页面显示Trace信息
-        'type'  =>  'html',
-    ]*/
 ];

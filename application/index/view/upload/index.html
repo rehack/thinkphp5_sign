@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>签到照片上传</title>
+        <style type="text/css">
+        body,div,img,a,input,ul,li{padding: 0;margin: 0;}
+        body{
+            min-width: 320px;
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        a{text-decoration: none;}
+        .addbtn img {
+            width: 100px;
+        }
+        .imgPreview {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+        }
+        .num{
+            height: 35px;
+            width: 120px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin: 10px 0;
+            outline: medium;
+            text-indent: 5px;
+            color: red;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .menu{display: flex;}
+        .menu li{
+            list-style: none;
+            border-radius: 8px;
+            padding: 3px 10px;
+            background: orange;
+            margin: 5px;
+        }
+        .menu li a{
+            color: #fff;
+
+        }
+        #upbtn{
+            display: block;
+            width: 50%;
+            margin: 0 auto;
+            background: green;
+            color: #fff;
+            border-radius: 8px;
+            padding: 5px;
+            border:none;
+            margin-top: 20px;
+        }
+        </style>
+    </head>
+
+    <body>
+        <ul class="menu">
+            <li><a href="javascript:;" onclick="reload();">刷新</a></li>
+            <li><a href="{:url('uploadList')}" target="_blank">查看已拍照</a></li>
+        </ul>
+        <!-- <h2>签到照片上传</h2> -->
+        <form method="post">
+            <!-- 其他需要提交的信息：
+            <input type="text" name="otherInfo" /> -->
+            <a href="Javascript:;" class="addbtn" id="addImgBtn">
+                <img src="__STATIC__/upload/images/add.png" alt="选择并添加图片">
+            </a>
+            <br>
+            <br>
+            <input class="num" type="number" placeholder="签到号码" name="num" required>
+            <!-- 限制文件大小 -->
+            <input type="hidden" name="MAX_FILE_SIZE" value="113032">
+            <!-- <input type="hidden" name="MAX_FILE_SIZE" value="6291456"> -->
+        </form>
+        <div id="imgPreview">
+
+            <!-- <h3>图片预览：</h3> -->
+            <!-- <img id="img" style="width:100;height:100"/> -->
+        </div>
+
+        <input type="button" value="开始上传" onclick="upload()" id="upbtn" />
+        <br><br>
+        <!-- <progress value="0" max="100"></progress> -->
+        <br/>
+        <p id="progress"></p>
+        <p id="info"></p>
+        <div id="result"></div>
+        <script src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script>
+        <script>
+
+            var totalSize = 0;
+
+            var fileNum = 0;
+
+            $(function(){
+                //绑定“选择并添加图片”按钮点击事件的callback
+                $("#addImgBtn").on("click", function(){
+                    //新增一个file控件在“选择并添加图片”按钮前面
+                    var fileHtml = '<input type="file" capture="camera" name="file" id=file' + fileNum + ' /accept="image/jpeg,image/jpg,image/png" required>';// image/*这个会有bug
+                    fileNum++;
+                    $(this).before(fileHtml);
+
+                    var fileControl = $(this).prev(); //获取新增的file控件对象
+
+                    //为file控件绑定change事件的callback，图片被选择后会调用这个处理函数
+                    //注意：一定要在click事件被传递给file控件之前绑定，否则有些低版本的浏览器无法支持
+                    fileControl.on("change", function(){
+                        //获取从文件选择器返回的信息：
+                        var file = this.files[0]; //假设file标签没打开multiple属性，那么只取第一个文件就行了
+                        name = file.name;
+                        size = file.size;
+                        type = file.type;
+                        url = window.URL.createObjectURL(file); //获取本地文件的url，用于预览图片
+
+                        //图片预览：
+                        var imgHtml = '<img id="img'+ fileNum +'" class="imgPreview"/>';
+                        // imgHtml += "文件名：" + name + " 文件类型：" + type + " 文件大小：" + size /* + " url: " + url */ + "<br/>";
+                        $("#imgPreview").append(imgHtml);
+                        $("#img"+fileNum).attr("src", url);
+
+                        //总计
+                        totalSize += size;
+                        // $("#info").html("总大小: " + totalSize + "bytes");
+                    });
+
+                    //把点击事件传递给file控件
+                    fileControl.focus(); //注意：某些浏览器，比如android4.2版本的Webview，必须先focus file控件，不然无法弹出文件选择器！！！
+                    fileControl.click();
+                    fileControl.hide();
+                });
+            });
+
+            function upload() {
+                if($('.num').val()=='' || $('#file').val()==''){
+                    alert('请填写签到号码');
+                    return false;
+                }
+                $('#upbtn').attr("disabled",true);
+                var t=setTimeout("$('#upbtn').removeAttr('disabled')",5000)
+                //创建FormData对象，初始化为form表单中的数据。需要添加其他数据可使用formData.append("property", "value");
+                var formData = new FormData($('form')[0]);
+
+                //ajax异步上传
+                $.ajax({
+                    url: "{:url('saveUploadFile')}",
+                    type: "POST",
+                    data: formData,
+                    xhr: function(){ //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数
+
+                        myXhr = $.ajaxSettings.xhr();
+                        if(myXhr.upload){ //检查upload属性是否存在
+                            //绑定progress事件的回调函数
+                            myXhr.upload.addEventListener('progress',progressHandlingFunction, false);
+                        }
+                        return myXhr; //xhr对象返回给jQuery使用
+                    },
+                    success: function(result){
+                        // $("#result").html(result.msg);
+                        alert(result.msg);
+                        if(result.msg=='上传成功'){
+                            reload();
+                        }
+                    },
+                    error:function(result){
+                        // console.log(result)
+                        alert(result.msg);
+                        // $("#result").html(result);
+                    },
+                    contentType: false, //必须false才会自动加上正确的Content-Type
+                    processData: false  //必须false才会避开jQuery对 formdata 的默认处理
+                });
+            }
+
+            //上传进度回调函数：
+            function progressHandlingFunction(e) {
+                if (e.lengthComputable) {
+                    // $('progress').attr({value : e.loaded, max : e.total}); //更新数据到进度条
+                    var percent = e.loaded/e.total*100;
+                    $('#progress').html((e.loaded/(1024*1024)).toFixed(2) + "/" + (e.total/(1024*1024)).toFixed(2)+" M. " + percent.toFixed(2) + "%");
+                }
+            }
+
+            function reload(){
+                window.location.reload();
+            }
+        </script>
+    </body>
+</html>

@@ -17,20 +17,15 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "topthink/framework": "^5.0",
-        "topthink/think-captcha": "^1.0",
-        "PHPOffice/PHPExcel": "^1.8"
+        "topthink/framework": "~5.0.0",
+        "topthink/think-captcha": "dev-master",
+        "phpoffice/phpexcel": "^1.8",
+        "topthink/think-image": "^1.0"
     },
     "extra": {
         "think-path": "thinkphp"
     },
     "config": {
         "preferred-install": "dist"
-    },
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
-        }
     }
 }
